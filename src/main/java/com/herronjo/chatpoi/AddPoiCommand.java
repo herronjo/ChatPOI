@@ -5,61 +5,45 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AddPoiCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             return false;
         }
-        if (args.length < 2) {
+
+        // This is a hack to get around the fact that Bukkit doesn't support spaces in arguments
+        // Absolutely stolen from https://stackoverflow.com/questions/7804335/
+        List<String> realArgsBecauseBukkitSucks = new ArrayList<String>();
+        Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(String.join(" ", args));
+        while (m.find()) realArgsBecauseBukkitSucks.add(m.group(1));
+
+        if (realArgsBecauseBukkitSucks.size() < 1) {
             return false;
         }
 
-        String name = args[0];
-        String description = args[1];
-        int i = 0;
-
-        if (args[0].startsWith("\"")) {
-            name = args[0].substring(1);
-            if (args[0].endsWith("\"")) {
-                name = name.substring(0, name.length() - 1);
-                i = 1;
-            } else {
-                i++;
-                while (!args[i].endsWith("\"") && i < args.length) {
-                    name += " " + args[i];
-                    i++;
-                }
-                name += " " + args[i].substring(0, args[i].length() - 1);
-                i++;
-            }
+        String name = realArgsBecauseBukkitSucks.get(0);
+        if (name.startsWith("\"") && name.endsWith("\"")) name = name.substring(1, name.length() - 1);
+        String description = name;
+        if (realArgsBecauseBukkitSucks.size() > 1) {
+            description = realArgsBecauseBukkitSucks.get(1);
+            if (description.startsWith("\"") && description.endsWith("\"")) description = description.substring(1, description.length() - 1);
         }
-
-        if (i >= args.length) {
-            return false;
-        }
-
-        if (args[i].startsWith("\"")) {
-            description = args[i].substring(1);
-            if (args[i].endsWith("\"")) {
-                description = description.substring(0, description.length() - 1);
-            } else {
-                i++;
-                while (!args[i].endsWith("\"") && i < args.length) {
-                    description += " " + args[i];
-                    i++;
-                }
-                description += " " + args[i].substring(0, args[i].length() - 1);
-            }
-        }
-
         Player player = (Player) sender;
         PoiList poiList = new PoiList();
         int x = player.getLocation().getBlockX();
         int y = player.getLocation().getBlockY();
         int z = player.getLocation().getBlockZ();
-        poiList.addPOI(name, description, x, y, z);
-        player.sendMessage("Added POI");
+        if (poiList.addPOI(name, description, x, y, z)) {
+            player.sendMessage("POI added.");
+        } else {
+            player.sendMessage("POI already exists.");
+        }
         return true;
     }
 }

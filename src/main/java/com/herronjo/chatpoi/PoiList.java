@@ -1,13 +1,9 @@
 package com.herronjo.chatpoi;
 
 import org.bukkit.Bukkit;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 public class PoiList {
     private HashMap<String, POI> POIs;
@@ -23,26 +19,41 @@ public class PoiList {
         }
     }
 
-    public void addPOI(String name, String description, int x, int y, int z) {
+    public boolean addPOI(String name, String description, int x, int y, int z) {
         POI poi = new POI();
         poi.description = description;
         poi.x = x;
         poi.y = y;
         poi.z = z;
+        if (POIs.containsKey(name)) {
+            return false;
+        }
         POIs.put(name, poi);
         saveData("plugins/ChatPOI/pois.txt");
+        return true;
     }
 
-    public void removePOI(String name) {
-        POIs.remove(name);
+    public boolean removePOI(String name) {
+        if (POIs.remove(name) == null) {
+            return false;
+        }
         saveData("plugins/ChatPOI/pois.txt");
+        return true;
     }
 
-    public void renamePOI(String oldName, String newName) {
+    public boolean renamePOI(String oldName, String newName) {
+        if (!POIs.containsKey(oldName)) {
+            return false;
+        }
         POI poi = POIs.get(oldName);
         POIs.remove(oldName);
         POIs.put(newName, poi);
         saveData("plugins/ChatPOI/pois.txt");
+        return true;
+    }
+
+    public POI getPOI(String name) {
+        return POIs.get(name);
     }
 
     public HashMap<String, POI> getPOIs() {

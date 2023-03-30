@@ -54,8 +54,13 @@ public class ChatPOI extends JavaPlugin implements Listener {
 
             PoiList poiList = new PoiList();
             int numPOIs = poiList.getPOIs().size() + 1;
-            poiList.addPOI("POI #" + numPOIs, message, x, y, z);
-            event.getPlayer().sendMessage("POI #" + numPOIs + " added.");
+            String name = "POI #" + numPOIs;
+            int retries = 1;
+            while (!poiList.addPOI(name, message, x, y, z)) {
+                name = "POI #" + numPOIs + " (" + retries + ")";
+                retries++;
+            }
+            event.getPlayer().sendMessage(name + " added.");
 
             // Let the message be sent to the chat
             event.setCancelled(false);
