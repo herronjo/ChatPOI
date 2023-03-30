@@ -19,9 +19,10 @@ public class PoiList {
         }
     }
 
-    public boolean addPOI(String name, String description, int x, int y, int z) {
+    public boolean addPOI(String name, String description, String world, int x, int y, int z) {
         POI poi = new POI();
         poi.description = description;
+        poi.world = world;
         poi.x = x;
         poi.y = y;
         poi.z = z;
@@ -68,6 +69,7 @@ public class PoiList {
                 POI poi = POIs.get(name);
                 writer.write(name + "\n");
                 writer.write(poi.description + "\n");
+                writer.write(poi.world + "\n");
                 writer.write(poi.x + " " + poi.y + " " + poi.z + "\n");
             }
 
@@ -88,6 +90,7 @@ public class PoiList {
             while ((line = reader.readLine()) != null) {
                 POI poi = new POI();
                 poi.description = reader.readLine();
+                poi.world = reader.readLine();
                 String[] coords = reader.readLine().split(" ");
                 poi.x = Integer.parseInt(coords[0]);
                 poi.y = Integer.parseInt(coords[1]);

@@ -18,7 +18,7 @@ public class ListPoisCommand implements CommandExecutor {
         ((Player) sender).sendMessage("POIs:");
         for (String name : POIs.keySet()) {
             POI poi = POIs.get(name);
-            sender.sendMessage(name + ": " + poi.description + " (" + poi.x + ", " + poi.y + ", " + poi.z + ")");
+            sender.sendMessage(name + ": " + poi.description + " (" + poi.world + " " + poi.x + ", " + poi.y + ", " + poi.z + ")");
         }
         return true;
     }

@@ -3,14 +3,20 @@ package com.herronjo.chatpoi;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RenamePoiCommand implements CommandExecutor {
+    HashMap<String, ArmorStand> floatingTextStands;
+    public RenamePoiCommand(HashMap<String, ArmorStand> floatingTextStands) {
+        this.floatingTextStands = floatingTextStands;
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -41,6 +47,13 @@ public class RenamePoiCommand implements CommandExecutor {
             return true;
         }
         if (poiList.renamePOI(oldName, newName)) {
+            // Rename the floating text stand
+            ArmorStand armorStand = floatingTextStands.get(oldName);
+            if (armorStand != null) {
+                armorStand.setCustomName(newName);
+            }
+            floatingTextStands.remove(oldName);
+            floatingTextStands.put(newName, armorStand);
             ((Player) sender).sendMessage("POI renamed.");
         } else {
             ((Player) sender).sendMessage("POI not found.");
