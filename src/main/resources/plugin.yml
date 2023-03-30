@@ -1,0 +1,26 @@
+name: ChatPOI
+version: 1.0.0
+author: Joshua Herron
+main: com.herronjo.chatpoi.ChatPOI
+api-version: 1.19
+commands:
+  addpoi:
+    description: Adds a point of interest to the server
+    usage: /addpoi <name> <description>
+    permission: chatpoi.addpoi
+    permission-message: You do not have permission to add a point of interest
+  listpois:
+    description: Lists all points of interest on the server
+    usage: /listpois
+    permission: chatpoi.listpois
+    permission-message: You do not have permission to list points of interest
+  removepoi:
+    description: Removes a point of interest from the server
+    usage: /removepoi <name>
+    permission: chatpoi.removepoi
+    permission-message: You do not have permission to remove a point of interest
+  renamepoi:
+    description: Renames a point of interest on the server
+    usage: /renamepoi <oldname> <newname>
+    permission: chatpoi.renamepoi
+    permission-message: You do not have permission to rename a point of interest
