@@ -5,10 +5,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,7 +63,7 @@ public class ChatPOI extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "ChatPOI has been disabled.");
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
         // Check if message contains three numbers separated by spaces at any point in the message
@@ -99,22 +101,29 @@ public class ChatPOI extends JavaPlugin implements Listener {
             }
 
             if (config.getDisplayFloatingText()) {
-                POI poi = poiList.getPOI(name);
-                // Create invisible armor stand
-                Location location = new Location(Bukkit.getWorld(poi.world), poi.x, poi.y, poi.z);
-                ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-                armorStand.setCustomName(name);
-                armorStand.setCustomNameVisible(true);
-                armorStand.setInvulnerable(true);
-                armorStand.setGravity(false);
-                armorStand.setSilent(true);
-                armorStand.setInvisible(true);
-                floatingTextStands.put(name, armorStand);
-                event.getPlayer().sendMessage(name + " added.");
+                BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+                scheduler.scheduleSyncDelayedTask(this, createFloatingText(name, new POI(message, world, x, y, z)), 1);
             }
+
+            event.getPlayer().sendMessage(name + " added.");
 
             // Let the message be sent to the chat
             event.setCancelled(false);
         }
+    }
+
+    private Runnable createFloatingText(String poiName, POI poi) {
+        return () -> {
+            // Create invisible armor stand
+            Location location = new Location(Bukkit.getWorld(poi.world), poi.x, poi.y, poi.z);
+            ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+            armorStand.setCustomName(poiName);
+            armorStand.setCustomNameVisible(true);
+            armorStand.setInvulnerable(true);
+            armorStand.setGravity(false);
+            armorStand.setSilent(true);
+            armorStand.setInvisible(true);
+            floatingTextStands.put(poiName, armorStand);
+        };
     }
 }
