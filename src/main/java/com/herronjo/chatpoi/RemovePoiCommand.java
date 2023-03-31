@@ -13,8 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RemovePoiCommand implements CommandExecutor {
+    Config config;
     HashMap<String, ArmorStand> floatingTextStands;
-    public RemovePoiCommand(HashMap<String, ArmorStand> floatingTextStands) {
+    public RemovePoiCommand(Config config, HashMap<String, ArmorStand> floatingTextStands) {
+        this.config = config;
         this.floatingTextStands = floatingTextStands;
     }
     @Override
@@ -42,12 +44,14 @@ public class RemovePoiCommand implements CommandExecutor {
         if (!poiList.removePOI(name)) {
             ((Player) sender).sendMessage("POI not found.");
         } else {
-            // Remove the floating text stand
-            ArmorStand armorStand = floatingTextStands.get(name);
-            if (armorStand != null) {
-                armorStand.remove();
+            if (config.getDisplayFloatingText()) {
+                // Remove the floating text stand
+                ArmorStand armorStand = floatingTextStands.get(name);
+                if (armorStand != null) {
+                    armorStand.remove();
+                }
+                floatingTextStands.remove(name);
             }
-            floatingTextStands.remove(name);
             ((Player) sender).sendMessage("POI removed.");
         }
         return true;

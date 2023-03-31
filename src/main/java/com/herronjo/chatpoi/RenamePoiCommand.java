@@ -13,8 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RenamePoiCommand implements CommandExecutor {
+    Config config;
     HashMap<String, ArmorStand> floatingTextStands;
-    public RenamePoiCommand(HashMap<String, ArmorStand> floatingTextStands) {
+    public RenamePoiCommand(Config config, HashMap<String, ArmorStand> floatingTextStands) {
+        this.config = config;
         this.floatingTextStands = floatingTextStands;
     }
     @Override
@@ -47,13 +49,15 @@ public class RenamePoiCommand implements CommandExecutor {
             return true;
         }
         if (poiList.renamePOI(oldName, newName)) {
-            // Rename the floating text stand
-            ArmorStand armorStand = floatingTextStands.get(oldName);
-            if (armorStand != null) {
-                armorStand.setCustomName(newName);
+            if (config.getDisplayFloatingText()) {
+                // Rename the floating text stand
+                ArmorStand armorStand = floatingTextStands.get(oldName);
+                if (armorStand != null) {
+                    armorStand.setCustomName(newName);
+                }
+                floatingTextStands.remove(oldName);
+                floatingTextStands.put(newName, armorStand);
             }
-            floatingTextStands.remove(oldName);
-            floatingTextStands.put(newName, armorStand);
             ((Player) sender).sendMessage("POI renamed.");
         } else {
             ((Player) sender).sendMessage("POI not found.");

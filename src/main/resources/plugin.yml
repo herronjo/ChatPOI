@@ -1,5 +1,5 @@
 name: ChatPOI
-version: 1.1.0
+version: 1.1.1
 author: Joshua Herron
 main: com.herronjo.chatpoi.ChatPOI
 api-version: 1.19
@@ -24,3 +24,8 @@ commands:
     usage: /renamepoi <oldname> <newname>
     permission: chatpoi.renamepoi
     permission-message: You do not have permission to rename a point of interest
+  togglepoihud:
+    description: Toggles the display of the point of interest HUD
+    usage: /togglepoihud
+    permission: chatpoi.togglepoihud
+    permission-message: You do not have permission to toggle the point of interest HUD

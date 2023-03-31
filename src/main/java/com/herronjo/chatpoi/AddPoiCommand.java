@@ -16,8 +16,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddPoiCommand implements CommandExecutor {
+    Config config;
     HashMap<String, ArmorStand> floatingTextStands;
-    public AddPoiCommand(HashMap<String, ArmorStand> floatingTextStands) {
+    public AddPoiCommand(Config config, HashMap<String, ArmorStand> floatingTextStands) {
+        this.config = config;
         this.floatingTextStands = floatingTextStands;
     }
     @Override
@@ -50,17 +52,19 @@ public class AddPoiCommand implements CommandExecutor {
         int y = player.getLocation().getBlockY();
         int z = player.getLocation().getBlockZ();
         if (poiList.addPOI(name, description, world, x, y, z)) {
-            POI poi = poiList.getPOI(name);
-            // Create invisible armor stand
-            Location location = new Location(Bukkit.getWorld(poi.world), poi.x, poi.y, poi.z);
-            ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-            armorStand.setCustomName(name);
-            armorStand.setCustomNameVisible(true);
-            armorStand.setInvulnerable(true);
-            armorStand.setGravity(false);
-            armorStand.setSilent(true);
-            armorStand.setInvisible(true);
-            floatingTextStands.put(name, armorStand);
+            if (config.getDisplayFloatingText()) {
+                POI poi = poiList.getPOI(name);
+                // Create invisible armor stand
+                Location location = new Location(Bukkit.getWorld(poi.world), poi.x, poi.y, poi.z);
+                ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+                armorStand.setCustomName(name);
+                armorStand.setCustomNameVisible(true);
+                armorStand.setInvulnerable(true);
+                armorStand.setGravity(false);
+                armorStand.setSilent(true);
+                armorStand.setInvisible(true);
+                floatingTextStands.put(name, armorStand);
+            }
             player.sendMessage("POI added.");
         } else {
             player.sendMessage("POI already exists.");
