@@ -55,7 +55,7 @@ public class AddPoiCommand implements CommandExecutor {
             if (config.getDisplayFloatingText()) {
                 POI poi = poiList.getPOI(name);
                 // Create invisible armor stand
-                Location location = new Location(Bukkit.getWorld(poi.world), poi.x, poi.y, poi.z);
+                Location location = new Location(Bukkit.getWorld(poi.world), poi.x + .5, poi.y, poi.z + .5);
                 ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
                 armorStand.setCustomName(name);
                 armorStand.setCustomNameVisible(true);
