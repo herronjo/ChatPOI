@@ -1,7 +1,13 @@
 package com.herronjo.chatpoi;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.TreeMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -9,12 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Objects;
 
 public class ChatPOI extends JavaPlugin implements Listener {
     Config config = new Config();
@@ -32,7 +33,7 @@ public class ChatPOI extends JavaPlugin implements Listener {
         if (config.getDisplayFloatingText()) {
             // Summon floating text for all POIs
             PoiList poiList = new PoiList();
-            HashMap<String, POI> pois = poiList.getPOIs();
+            TreeMap<String, POI> pois = poiList.getPOIs();
             for (String poiName : pois.keySet()) {
                 POI poi = pois.get(poiName);
                 // Create invisible armor stand

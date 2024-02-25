@@ -1,11 +1,11 @@
 package com.herronjo.chatpoi;
 
+import java.util.TreeMap;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
 
 public class ListPoisCommand implements CommandExecutor {
     @Override
@@ -14,7 +14,7 @@ public class ListPoisCommand implements CommandExecutor {
             return false;
         }
         PoiList poiList = new PoiList();
-        HashMap<String, POI> POIs = poiList.getPOIs();
+        TreeMap<String, POI> POIs = poiList.getPOIs();
         ((Player) sender).sendMessage("POIs:");
         for (String name : POIs.keySet()) {
             POI poi = POIs.get(name);
