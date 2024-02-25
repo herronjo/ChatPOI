@@ -1,18 +1,21 @@
 package com.herronjo.chatpoi;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.TreeMap;
+
 import org.bukkit.Bukkit;
 
-import java.io.*;
-import java.util.HashMap;
-
 public class PoiList {
-    private HashMap<String, POI> POIs;
+    private TreeMap<String, POI> POIs;
 
     public PoiList() {
         this.POIs = loadData("plugins/ChatPOI/pois.txt");
         if (this.POIs == null) {
             Bukkit.getConsoleSender().sendMessage("No POI data found. Creating new POI data.");
-            this.POIs = new HashMap<String, POI>();
+            this.POIs = new TreeMap<String, POI>();
             // Create ChatPOI directory if it doesn't exist
             new java.io.File("plugins/ChatPOI").mkdirs();
             saveData("plugins/ChatPOI/pois.txt");
@@ -57,7 +60,7 @@ public class PoiList {
         return POIs.get(name);
     }
 
-    public HashMap<String, POI> getPOIs() {
+    public TreeMap<String, POI> getPOIs() {
         return POIs;
     }
 
@@ -81,9 +84,9 @@ public class PoiList {
         }
     }
 
-    public static HashMap<String, POI> loadData(String filePath) {
+    public static TreeMap<String, POI> loadData(String filePath) {
         try {
-            HashMap<String, POI> poiList = new HashMap<String, POI>();
+            TreeMap<String, POI> poiList = new TreeMap<String, POI>();
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
             String line;
