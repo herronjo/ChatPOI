@@ -1,7 +1,12 @@
 package com.herronjo.chatpoi;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -9,12 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Objects;
 
 public class ChatPOI extends JavaPlugin implements Listener {
     Config config = new Config();
@@ -36,14 +36,12 @@ public class ChatPOI extends JavaPlugin implements Listener {
             for (String poiName : pois.keySet()) {
                 POI poi = pois.get(poiName);
                 // Create invisible armor stand
-                Location location = new Location(Bukkit.getWorld(poi.world), poi.x + .5, poi.y, poi.z + .5);
+                Location location = new Location(Bukkit.getWorld(poi.world), poi.x + .5, poi.y + 2, poi.z + .5);
                 ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
                 armorStand.setCustomName(poiName);
                 armorStand.setCustomNameVisible(true);
-                armorStand.setInvulnerable(true);
-                armorStand.setGravity(false);
-                armorStand.setSilent(true);
                 armorStand.setInvisible(true);
+                armorStand.setMarker(true);
                 floatingTextStands.put(poiName, armorStand);
             }
         }
@@ -115,14 +113,12 @@ public class ChatPOI extends JavaPlugin implements Listener {
     private Runnable createFloatingText(String poiName, POI poi) {
         return () -> {
             // Create invisible armor stand
-            Location location = new Location(Bukkit.getWorld(poi.world), poi.x, poi.y, poi.z);
+            Location location = new Location(Bukkit.getWorld(poi.world), poi.x + .5, poi.y + 2, poi.z + .5);
             ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
             armorStand.setCustomName(poiName);
             armorStand.setCustomNameVisible(true);
-            armorStand.setInvulnerable(true);
-            armorStand.setGravity(false);
-            armorStand.setSilent(true);
             armorStand.setInvisible(true);
+            armorStand.setMarker(true);
             floatingTextStands.put(poiName, armorStand);
         };
     }
