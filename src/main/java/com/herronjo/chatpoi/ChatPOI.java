@@ -25,6 +25,7 @@ public class ChatPOI extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "ChatPOI has been enabled.");
         Objects.requireNonNull(getCommand("addpoi")).setExecutor(new AddPoiCommand(config, floatingTextStands));
         Objects.requireNonNull(getCommand("listpois")).setExecutor(new ListPoisCommand());
+        Objects.requireNonNull(getCommand("searchpois")).setExecutor(new SearchPoisCommand());
         Objects.requireNonNull(getCommand("removepoi")).setExecutor(new RemovePoiCommand(config, floatingTextStands));
         Objects.requireNonNull(getCommand("renamepoi")).setExecutor(new RenamePoiCommand(config, floatingTextStands));
         Objects.requireNonNull(getCommand("togglepoihud")).setExecutor(new TogglePoiHudCommand(config, floatingTextStands));

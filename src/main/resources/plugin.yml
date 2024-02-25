@@ -14,6 +14,11 @@ commands:
     usage: /listpois <order>
     permission: chatpoi.listpois
     permission-message: You do not have permission to list points of interest
+  searchpois:
+    description: Searches all points of interest on the server for a given query.
+    usage: /searchpois <query>
+    permission: chatpoi.searchpois
+    permission-message: You do not have permission to search points of interest
   removepoi:
     description: Removes a point of interest from the server
     usage: /removepoi <name>
