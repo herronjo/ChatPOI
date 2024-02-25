@@ -10,8 +10,8 @@ commands:
     permission: chatpoi.addpoi
     permission-message: You do not have permission to add a point of interest
   listpois:
-    description: Lists all points of interest on the server
-    usage: /listpois
+    description: Lists all points of interest on the server. Orderings are "alpha" and "distance", default is "alpha"
+    usage: /listpois <order>
     permission: chatpoi.listpois
     permission-message: You do not have permission to list points of interest
   removepoi:
