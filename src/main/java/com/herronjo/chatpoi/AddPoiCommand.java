@@ -1,5 +1,11 @@
 package com.herronjo.chatpoi;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -8,12 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AddPoiCommand implements CommandExecutor {
     Config config;
@@ -55,14 +55,12 @@ public class AddPoiCommand implements CommandExecutor {
             if (config.getDisplayFloatingText()) {
                 POI poi = poiList.getPOI(name);
                 // Create invisible armor stand
-                Location location = new Location(Bukkit.getWorld(poi.world), poi.x + .5, poi.y, poi.z + .5);
+                Location location = new Location(Bukkit.getWorld(poi.world), poi.x + .5, poi.y + 2, poi.z + .5);
                 ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
                 armorStand.setCustomName(name);
                 armorStand.setCustomNameVisible(true);
-                armorStand.setInvulnerable(true);
-                armorStand.setGravity(false);
-                armorStand.setSilent(true);
                 armorStand.setInvisible(true);
+                armorStand.setMarker(true);
                 floatingTextStands.put(name, armorStand);
             }
             player.sendMessage("POI added.");
