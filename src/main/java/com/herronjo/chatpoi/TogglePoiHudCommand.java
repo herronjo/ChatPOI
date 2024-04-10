@@ -1,5 +1,9 @@
 package com.herronjo.chatpoi;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -8,9 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class TogglePoiHudCommand implements CommandExecutor {
     Config config;
@@ -34,7 +35,7 @@ public class TogglePoiHudCommand implements CommandExecutor {
         if (config.getDisplayFloatingText()) {
             // Summon floating text for all POIs
             PoiList poiList = new PoiList();
-            HashMap<String, POI> pois = poiList.getPOIs();
+            TreeMap<String, POI> pois = poiList.getPOIs();
             for (String poiName : pois.keySet()) {
                 POI poi = pois.get(poiName);
                 // Create invisible armor stand

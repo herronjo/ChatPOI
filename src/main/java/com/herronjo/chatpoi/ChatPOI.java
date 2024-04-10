@@ -3,6 +3,7 @@ package com.herronjo.chatpoi;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.TreeMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,6 +25,7 @@ public class ChatPOI extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "ChatPOI has been enabled.");
         Objects.requireNonNull(getCommand("addpoi")).setExecutor(new AddPoiCommand(config, floatingTextStands));
         Objects.requireNonNull(getCommand("listpois")).setExecutor(new ListPoisCommand());
+        Objects.requireNonNull(getCommand("searchpois")).setExecutor(new SearchPoisCommand());
         Objects.requireNonNull(getCommand("removepoi")).setExecutor(new RemovePoiCommand(config, floatingTextStands));
         Objects.requireNonNull(getCommand("renamepoi")).setExecutor(new RenamePoiCommand(config, floatingTextStands));
         Objects.requireNonNull(getCommand("togglepoihud")).setExecutor(new TogglePoiHudCommand(config, floatingTextStands));
@@ -32,7 +34,7 @@ public class ChatPOI extends JavaPlugin implements Listener {
         if (config.getDisplayFloatingText()) {
             // Summon floating text for all POIs
             PoiList poiList = new PoiList();
-            HashMap<String, POI> pois = poiList.getPOIs();
+            TreeMap<String, POI> pois = poiList.getPOIs();
             for (String poiName : pois.keySet()) {
                 POI poi = pois.get(poiName);
                 // Create invisible armor stand
