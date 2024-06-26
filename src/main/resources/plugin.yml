@@ -1,8 +1,8 @@
 name: ChatPOI
-version: 1.2.0
+version: 1.2.1
 author: Joshua Herron
 main: com.herronjo.chatpoi.ChatPOI
-api-version: 1.20
+api-version: 1.21
 commands:
   addpoi:
     description: Adds a point of interest to the server
