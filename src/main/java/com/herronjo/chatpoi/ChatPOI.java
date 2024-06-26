@@ -44,6 +44,7 @@ public class ChatPOI extends JavaPlugin implements Listener {
                 armorStand.setCustomNameVisible(true);
                 armorStand.setInvisible(true);
                 armorStand.setMarker(true);
+                armorStand.setPersistent(false);
                 floatingTextStands.put(poiName, armorStand);
             }
         }
